@@ -1,0 +1,63 @@
+/* Pengaturan latar dan teks utama */
+body {
+  background-color: #f4f7f6;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  margin: 40px auto;
+  max-width: 800px; /* Membatasi lebar agar rapi di layar besar */
+}
+
+h2 {
+  color: #2c3e50;
+  text-align: center;
+}
+
+/* Pengaturan formulir (index.html) */
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Pengaturan tabel (data_lamaran.html) */
+table {
+  width: 100%;
+  border-collapse: collapse; /* Menyatukan garis batas tabel */
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Memberi efek bayangan lembut */
+}
+
+th,
+td {
+  padding: 12px 15px; /* Jarak di dalam kotak (Bantalan) */
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #3498db; /* Warna biru untuk kepala tabel */
+  color: white;
+}
+
+tr:hover {
+  background-color: #f1f1f1; /* Baris berubah warna saat dilewati mouse */
+}
+
+/* Pengaturan tombol */
+button {
+  background-color: #e74c3c; /* Warna merah */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+button:hover {
+  background-color: #c0392b; /* Merah lebih gelap saat di-hover */
+}
