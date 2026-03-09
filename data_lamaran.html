@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Data Pelamar - HRD</title>
+  </head>
+  <body>
+    <h2>Daftar Lamaran Masuk</h2>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nama Pelamar</th>
+          <th>Usia</th>
+        </tr>
+      </thead>
+      <tbody id="tempat-data"></tbody>
+    </table>
+
+    <script>
+      // 1. Alamat loket Vercel API
+      const alamatAPI = "https://proyek-backend-ai.vercel.app/lihat-data";
+
+      // 2. Menyuruh browser menjemput data
+      fetch(alamatAPI)
+        .then((respon) => respon.json()) // Buka bungkus JSON-nya
+        .then((dataPelamar) => {
+          // 3. Cari titik kumpul di HTML
+          const tempatData = document.getElementById("tempat-data");
+
+          // 4. Masukkan data satu per satu ke dalam baris tabel
+          dataPelamar.forEach((pelamar) => {
+            const barisBaru = `
+                        <tr>
+                            <td>${pelamar.id}</td>
+                            <td>${pelamar.nama}</td>
+                            <td>${pelamar.usia}</td>
+                            <td>
+                <button onclick="editData(${pelamar.id}, ${pelamar.usia})">Edit</button>
+                <button onclick="hapusData(${pelamar.id})">Hapus</button>
+                            </td>
+                        </tr>
+                    `;
+            tempatData.innerHTML += barisBaru; // Suntikkan ke HTML!
+          });
+        })
+        .catch((error) => {
+          console.log("Waduh, gagal menjemput data:", error);
+        });
+
+      function hapusData(id) {
+        // Meminta konfirmasi agar tidak tidak sengaja terhapus
+        if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+          // 1. Gabungkan alamat API dengan ID
+          const urlHapus = `https://proyek-backend-ai.vercel.app/hapus-data/${id}`;
+
+          // 2. Jalankan fetch dengan metode DELETE
+          fetch(urlHapus, {
+            method: "DELETE",
+          })
+            .then((respon) => {
+              if (respon.ok) {
+                alert("Data berhasil dibuang! 🗑️");
+                location.reload(); // Segarkan halaman untuk melihat perubahan
+              }
+            })
+            .catch((error) => console.log("Gagal menghapus:", error));
+        }
+      }
+
+      function editData(id, usiaLama) {
+        // Memunculkan kotak isian kecil (prompt) di layar browser
+        const usiaBaru = prompt("Masukkan usia baru untuk pelamar ini:", usiaLama);
+
+        // Mengecek apakah HRD mengisi angka dan tidak menekan tombol 'Cancel'
+        if (usiaBaru !== null && usiaBaru !== "") {
+          const urlUpdate = `https://proyek-backend-ai.vercel.app/update-data/${id}`;
+
+          fetch(urlUpdate, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json", // Memberitahu pelayan bentuk paketnya
+            },
+            body: JSON.stringify({ usia: usiaBaru }), // Membungkus data usia baru
+          })
+            .then((respon) => {
+              if (respon.ok) {
+                alert("Data usia berhasil diperbarui! ✏️");
+                location.reload(); // Menyegarkan halaman otomatis
+              }
+            })
+            .catch((error) => console.log("Gagal memperbarui:", error));
+        }
+      }
+    </script>
+  </body>
+</html>
